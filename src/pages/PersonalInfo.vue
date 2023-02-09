@@ -88,13 +88,14 @@
               <p class="text-sm text-red-500">{{ personalInfo.phoneError }}</p>
             </div>
             <div class="w-full h-20 mt-9 flex justify-end items-center">
-              <button
+             <router-link :to="{name:'experience'}"> <button
                 :disabled="formIsValid ? false : true"
                 class="w-56 h-10 rounded-lg text-white"
                 :class="formIsValid ? 'bg-purple-500' : 'bg-red-500'"
               >
                 შემდეგი
               </button>
+              </router-link>
             </div>
           </div>
         </div>
