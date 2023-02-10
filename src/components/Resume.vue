@@ -1,29 +1,29 @@
 <template>
-  <div class="w-1/2 h-screen flex justify-center overflow-y-auto">
+  <div class="w-1/2 h-screen flex justify-center overflow-y-auto relative">
     <div class="w-4/5 h-full flex flex-col justify-start items-start mt-20">
       <div class="w-full h-80 flex border-b-[2px] border-gray-300 pb-6">
         <div class="w-2/3 h-full flex flex-col justify-start items-start pr-4">
-          <p class="text-4xl text-[#F93B1D] font-bold">ანზორ მუმლაძე</p>
+          <p class="text-4xl text-[#F93B1D] font-bold">
+            {{ name }} {{ last_name }}
+          </p>
           <div
             class="w-full h-10 flex justify-start items-center space-x-2 mt-4"
           >
             <EmailIcon />
-            <p class="text-lg text-black">lkochlo@redberry.ge</p>
+            <p class="text-lg text-black">{{ email }}</p>
           </div>
           <div class="w-full h-10 flex justify-start items-center space-x-2">
             <PhoneIcon />
-            <p class="text-lg text-black">+995599683121</p>
+            <p class="text-lg text-black">{{ phone }}</p>
           </div>
           <p class="text-2xl text-[#F93B1D] font-bold mt-4">ჩემ შესახებ</p>
           <p class="text-lg text-black mt-4">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur
-            ullam quas dolore labore est earum ut pariatur quo. Ullam dolorem
-            tempore hic nesciunt modi recusandae!
+            {{ about_me }}
           </p>
         </div>
-        <div class="w-1/3 h-full flex bg-green-500 rounded-full">
+        <div class="w-1/3 h-full flex rounded-full">
           <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjblh-24xyJcSRBdenskvyA0uMNRje04jPFA&usqp=CAU"
+            :src="photo"
             alt="Profile Picture"
             class="w-full h-full object-cover object-center rounded-full"
           />
@@ -55,14 +55,20 @@
         </p>
       </div>
     </div>
+    <ResumeLogoIcon class="absolute bottom-6 left-6" />
   </div>
 </template>
 
 <script>
 import EmailIcon from "../assets/icons/EmailIcon.vue";
 import PhoneIcon from "../assets/icons/PhoneIcon.vue";
+import ResumeLogoIcon from "../assets/icons/ResumeLogoIcon.vue";
+import { mapState } from "vuex";
 
 export default {
-  components: { EmailIcon, PhoneIcon },
+  components: { EmailIcon, PhoneIcon, ResumeLogoIcon },
+  computed: {
+    ...mapState(["name", "last_name", "email", "phone", "about_me", "photo"]),
+  },
 };
 </script>
