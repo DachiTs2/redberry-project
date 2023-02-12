@@ -30,7 +30,7 @@
               <option
                 v-for="degree in degreeList"
                 :key="degree.id"
-                :value="degree.title"
+                :value="degree.id"
                 class="w-full h-12 text-sm"
               >
                 {{ degree.title }}
@@ -70,17 +70,14 @@
           </button>
         </div>
         <div class="w-4/5 h-14 flex justify-between items-center mt-8">
-          <router-link :to="{ name: 'personal-info' }">
-            <button
-              :disabled="formIsValid ? false : true"
-              class="w-56 h-10 rounded-lg text-white bg-purple-500"
-            >
+          <router-link :to="{ name: 'experience' }">
+            <button class="w-56 h-10 rounded-lg text-white bg-purple-500">
               უკან
             </button>
           </router-link>
           <router-link :to="{ name: 'education' }">
             <button
-              :disabled="formIsValid ? false : true"
+              @click="sendToApi"
               class="w-56 h-10 rounded-lg text-white"
               :class="formIsValid ? 'bg-purple-500' : 'bg-red-500'"
             >
@@ -90,12 +87,6 @@
         </div>
       </div>
     </div>
-    <button
-      class="absolute top-0 left-0 w-96 h-10 bg-red-500"
-      @click="sendInfo"
-    >
-      send
-    </button>
     <Resume />
   </div>
 </template>
@@ -212,7 +203,7 @@ export default {
           institute: this.education.institute,
           description: this.education.description,
           due_date: this.education.due_date,
-          degree: this.degree,
+          degree_id: this.degree,
         };
         this.$store.commit("addEducation", education);
         this.$store.commit("cleanEducation");
@@ -229,33 +220,39 @@ export default {
         }
       }
     },
-    sendInfo() {
+    sendToApi() {
+      const education = {
+        institute: this.education.institute,
+        description: this.education.description,
+        due_date: this.education.due_date,
+        degree_id: this.degree,
+      };
+      this.$store.commit("addEducation", education);
+      this.$store.commit("cleanEducation");
       const form = new FormData();
-      const educationsArray = [];
-      JSON.parse(JSON.stringify(this.$store.state.educations)).map(
-        (education) => {
-          educationsArray.push(education);
-        }
-      );
       form.append("name", this.name);
       form.append("surname", this.last_name);
-      form.append("phone_number", this.phone);
-      form.append(
-        "experiences",
-        JSON.parse(JSON.stringify(this.$store.state.experiences))
-      );
-      form.append("educations", educationsArray);
+      form.append("image", this.image);
       form.append("email", this.email);
       form.append("about_me", this.about_me);
-      form.append("image", this.image);
-
+      form.append("phone_number", this.phone);
+      this.educations.forEach((obj, index) => {
+        Object.keys(obj).forEach((key) => {
+          form.append(`educations[${index}][${key}]`, obj[key]);
+        });
+      });
+      this.experiences.forEach((obj, index) => {
+        Object.keys(obj).forEach((key) => {
+          form.append(`experiences[${index}][${key}]`, obj[key]);
+        });
+      });
       axios
         .post("https://resume.redberryinternship.ge/api/cvs", form)
         .then((response) => {
-          console.log(response);
+          if (response.status === 201) {
+            this.$router.push({ name: "resume" });
+          }
         });
-
-      console.log(educationsArray);
     },
   },
 };

@@ -166,14 +166,15 @@ export default {
   methods: {
     positionChangeHandler(event) {
       if (event.target.value.length === 0) {
-        this.experience.postError = "ეს ველი სავალდებულოა";
+        this.experience.positionError = "ეს ველი სავალდებულოა";
       } else if (
         event.target.value.length > 0 &&
         event.target.value.length < 2
       ) {
-        this.experience.postError = "ეს ველი უნდა შეიცავდეს მინიმუმ 2 სიმბოლოს";
+        this.experience.positionError =
+          "ეს ველი უნდა შეიცავდეს მინიმუმ 2 სიმბოლოს";
       } else {
-        this.experience.postError = "";
+        this.experience.positionError = "";
         this.$store.commit("set_position", event.target.value);
       }
     },
@@ -193,7 +194,7 @@ export default {
     },
     descriptionChangeHandler(event) {
       if (event.target.value.length === 0) {
-        this.experience.employerError = "ეს ველი სავალდებულოა";
+        this.experience.descriptionError = "ეს ველი სავალდებულოა";
       } else {
         this.experience.descriptionError = "";
         this.$store.commit("set_description", event.target.value);
@@ -217,7 +218,7 @@ export default {
           position: this.experience.position,
           employer: this.experience.employer,
           start_date: this.experience.startingDate,
-          end_date: this.experience.job_end_date,
+          due_date: this.experience.job_end_date,
           description: this.experience.job_description,
         };
         this.$store.commit("addExperience", experience);
@@ -248,7 +249,7 @@ export default {
           position: this.experience.position,
           employer: this.experience.employer,
           start_date: this.experience.startingDate,
-          end_date: this.experience.job_end_date,
+          due_date: this.experience.job_end_date,
           description: this.experience.job_description,
         };
         this.$store.commit("addExperience", experience);

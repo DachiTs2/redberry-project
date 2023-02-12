@@ -1,4 +1,4 @@
-import { createStore } from "vuex";
+import { createStore, Store } from "vuex";
 
 const store = createStore({
   state: {
@@ -88,6 +88,26 @@ const store = createStore({
     },
     set_image(state, payload) {
       state.image = payload;
+    },
+    cleanStore(state) {
+      state.name = "";
+      state.last_name = "";
+      state.about_me = "";
+      state.email = "";
+      state.phone = "";
+      state.photo = "";
+      state.experiences = [];
+      state.position = "";
+      state.employer = "";
+      state.job_start_date = "";
+      state.job_end_date = "";
+      state.job_description = "";
+      state.educations = [];
+      state.institute = "";
+      state.degree = "";
+      state.education_end_date = "";
+      state.education_description = "";
+      state.image = "";
     },
   },
 });
